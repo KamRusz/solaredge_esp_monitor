@@ -7,6 +7,8 @@ import senko
 import dht12
 import urequests
 
+#test OTA v2
+
 try:
   import usocket as socket
 except:
