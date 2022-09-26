@@ -30,11 +30,15 @@ if wlan is None:
         sleep(1)
 
 #GITHUB_URL = "https://github.com/RangerDigital/senko/blob/master/examples/"
+'''
 OTA = senko.Senko(
     user="KamRusz",
     repo="solaredge_esp_monitor",
     files=["boot.py", "main.py"]
     )
+'''
+GITHUB_URL = "https://github.com/KamRusz/solaredge_esp_monitor/blob/master/"
+OTA = senko.Senko(url=GITHUB_URL, files=["boot.py", "main.py"])
 '''
 if OTA.update():
     print("Updated to the latest version! Rebooting...")
