@@ -1,4 +1,5 @@
 from lib_lcd1602_2004_with_i2c import LCD
+import settings
 import wifimgr
 from time import sleep
 import machine
@@ -10,28 +11,28 @@ try:
   import usocket as socket
 except:
   import socket
-  
-i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4), freq=400000)
+
+i2c = settings.I2C_OBJ
 lcd = LCD(i2c)
-led = machine.Pin(2, machine.Pin.OUT)
-button = machine.Pin(12, machine.Pin.IN)
+led = settings.LED_PIN
+button = settings.BTN_PIN
 sensor = dht12.DHT12(i2c)
-backlight = machine.ADC(0)
-pwm = machine.PWM(machine.Pin(15))
-pwm.duty(500)
+light_sensor = machine.ADC(0)
+backlight = settings.BACKLIGHT
+#pwm.duty(500)
 sleep(1)
 #sensor.measure() sensor.temperature() sensor.humidity()
-"""
+
 wlan = wifimgr.get_connection()
 if wlan is None:
     print("Could not initialize the network connection.")
     while True:
         sleep(1)
-"""
-GITHUB_URL = "https://github.com/RangerDigital/senko/blob/master/examples/"
+
+#GITHUB_URL = "https://github.com/RangerDigital/senko/blob/master/examples/"
 OTA = senko.Senko(
-    user="ocktokit",
-    repo="octokit-iot",
+    user="KamRusz",
+    repo="solaredge_esp_monitor",
     files=["boot.py", "main.py"]
     )
 '''
@@ -42,8 +43,12 @@ if OTA.update():
     lcd.puts('Rebooting...',2)
     machine.reset()
 '''
+if OTA.fetch():
+    print("A newer version is available!")
+else:
+    print("Up to date!")
 #check time
-time=urequests.get(url='https://timeapi.io/api/Time/current/zone?timeZone=Europe/Warsaw')
+time=urequests.get(url=settings.TIME_API_URL)
 #print(time.json()['dayOfWeek'])
 my_rtc=(time.json()['year'],time.json()['month'],time.json()['day'],time.json()['hour'],time.json()['minute'],time.json()['seconds'],0,0)
 
