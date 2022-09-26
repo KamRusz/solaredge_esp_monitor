@@ -3,16 +3,8 @@ import settings
 import wifimgr
 from time import sleep
 import machine
-import senko
 import dht12
 import urequests
-
-#test OTA v2
-
-try:
-  import usocket as socket
-except:
-  import socket
 
 i2c = settings.I2C_OBJ
 lcd = LCD(i2c)
@@ -21,7 +13,6 @@ button = settings.BTN_PIN
 sensor = dht12.DHT12(i2c)
 light_sensor = machine.ADC(0)
 backlight = settings.BACKLIGHT
-#pwm.duty(500)
 sleep(1)
 #sensor.measure() sensor.temperature() sensor.humidity()
 
@@ -31,28 +22,6 @@ if wlan is None:
     while True:
         sleep(1)
 
-#GITHUB_URL = "https://github.com/RangerDigital/senko/blob/master/examples/"
-'''
-OTA = senko.Senko(
-    user="KamRusz",
-    repo="solaredge_esp_monitor",
-    files=["boot.py", "main.py"]
-    )
-'''
-GITHUB_URL = "https://github.com/KamRusz/solaredge_esp_monitor/blob/master/"
-OTA = senko.Senko(url=GITHUB_URL, files=["boot.py", "main.py"])
-'''
-if OTA.update():
-    print("Updated to the latest version! Rebooting...")
-    lcd.puts('Updated to the',0)
-    lcd.puts('latest version!',1)
-    lcd.puts('Rebooting...',2)
-    machine.reset()
-'''
-if OTA.fetch():
-    print("A newer version is available!")
-else:
-    print("Up to date!")
 #check time
 time=urequests.get(url=settings.TIME_API_URL)
 #print(time.json()['dayOfWeek'])
@@ -63,4 +32,3 @@ rtc.datetime(my_rtc)
 #print(rtc.datetime())
 
 print("now to main.py")
-

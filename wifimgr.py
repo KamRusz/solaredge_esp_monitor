@@ -4,12 +4,13 @@ import socket
 import ure
 import time
 import machine
+import settings
 
-ap_ssid = "SolarEdge_monitoring"
-ap_password = "solaredge"
-ap_authmode = 3  # WPA2
+ap_ssid = settings.AP_SSID
+ap_password = settings.AP_PASSWORD
+ap_authmode = settings.AP_AUTHMODE
 
-i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4), freq=400000)
+i2c = settings.I2C_OBJ
 lcd = LCD(i2c)
 
 NETWORK_PROFILES = 'wifi.dat'
