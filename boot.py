@@ -12,6 +12,7 @@ led = settings.LED_PIN
 button = settings.BTN_PIN
 sensor = dht12.DHT12(i2c)
 light_sensor = settings.ADC_PIN
+light_sensor.atten(machine.ADC.ATTN_11DB)
 backlight = settings.BACKLIGHT
 sleep(1)
 sensor.measure() #sensor.temperature() sensor.humidity()
@@ -25,7 +26,9 @@ if wlan is None:
 #check time
 time_web=urequests.get(url=settings.TIME_API_URL)
 #print(time_web.json()['dayOfWeek'])
-my_rtc=(time_web.json()['year'],time_web.json()['month'],time_web.json()['day'],time_web.json()['hour'],time_web.json()['minute'],time_web.json()['seconds'],0,0)
+
+my_rtc=(time_web.json()['year'],time_web.json()['month'],time_web.json()['day'],0,time_web.json()['hour'],time_web.json()['minute'],time_web.json()['seconds'],0)
+#print(my_rtc)
 
 rtc=machine.RTC()
 rtc.datetime(my_rtc)
